@@ -3,11 +3,14 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "homepage": "https://GhanshyamJangir.github.io/pg-owner-app",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "predeploy": "set PUBLIC_BASE_PATH=/pg-owner-app/&& npm run build",
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "react": "^19.2.0",
@@ -22,7 +25,8 @@
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.4.24",
     "globals": "^16.5.0",
-    "vite": "^8.0.0-beta.13"
+    "vite": "^8.0.0-beta.13",
+    "gh-pages": "^6.3.0"
   },
   "overrides": {
     "vite": "^8.0.0-beta.13"

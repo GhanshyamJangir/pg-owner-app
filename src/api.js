@@ -1,7 +1,10 @@
-const BASE = "http://localhost:8080";
+const BASE =
+  (import.meta.env.VITE_API_BASE_URL || "").replace(/\/$/, "") ||
+  (location.hostname === "localhost" ? "http://localhost:8080" : "");
 
 async function req(path, options) {
-  const res = await fetch(`${BASE}${path}`, options);
+  const url = BASE ? `${BASE}${path}` : path;
+  const res = await fetch(url, options);
   const text = await res.text();
   let json = {};
   try { json = text ? JSON.parse(text) : {}; } catch { json = { raw: text }; }
@@ -10,41 +13,15 @@ async function req(path, options) {
 }
 
 export const Api = {
-  ownerBookings: (ownerUserId, status) =>
-    req(`/api/owner/bookings/${ownerUserId}?status=${status}`),
+  pendingBookings: (ownerUserId) => req(`/api/owner/bookings/${ownerUserId}`),
 
-  acceptBooking: (bookingId) =>
+  accept: (bookingId) =>
     req(`/api/owner/bookings/${bookingId}/accept`, { method: "POST" }),
 
-  rejectBooking: (bookingId, reason) =>
+  reject: (bookingId, reason) =>
     req(`/api/owner/bookings/${bookingId}/reject`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ reason }),
-    }),
-
-  ownerPgs: (ownerUserId) => req(`/api/owner/pgs/${ownerUserId}`),
-
-  createPgWithImages: (formData) =>
-    req(`/api/owner/pgs`, {
-      method: "POST",
-      body: formData,
-    }),
-
-  addRoom: (pgId, payload) =>
-    req(`/api/owner/pgs/${pgId}/rooms`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    }),
-
-  // ✅ Owner Profile
-  getOwnerProfile: (ownerUserId) => req(`/api/owner/profile/${ownerUserId}`),
-
-  updateOwnerProfile: (ownerUserId, payload) =>
-    req(`/api/owner/profile/${ownerUserId}`, {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
     }),
 };
