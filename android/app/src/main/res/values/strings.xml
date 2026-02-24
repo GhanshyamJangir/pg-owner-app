@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">pg-owner-panel</string>
+    <string name="title_activity_main">pg-owner-panel</string>
+    <string name="package_name">com.pg.ownerpanel</string>
+    <string name="custom_url_scheme">com.pg.ownerpanel</string>
+</resources>
